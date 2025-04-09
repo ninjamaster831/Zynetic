@@ -7,16 +7,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.screen.ProductDetailScreen
 import com.example.myapplication.screen.ProductListScreen
+import com.example.myapplication.viewmodel.ProductDetailViewModel
+import com.example.myapplication.viewmodel.ProductListViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "product_list") {
+    NavHost(navController, startDestination = "product_list") {
         composable("product_list") {
-            ProductListScreen(navController, hiltViewModel())
+            val viewModel: ProductListViewModel = hiltViewModel()
+            ProductListScreen(navController, viewModel)
         }
         composable("product_detail/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
-            ProductDetailScreen(navController, id, hiltViewModel())
+            val viewModel: ProductDetailViewModel = hiltViewModel()
+            ProductDetailScreen(navController, id, viewModel)
         }
     }
 }
